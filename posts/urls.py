@@ -1,0 +1,10 @@
+from django.urls import path
+from . import views
+
+
+urlpatterns=[
+
+    path('',views.index,name='index'),
+    path('post/<str:pk>',views.post_detail,name='post'),
+    path('create',views.create,name='create')
+]
