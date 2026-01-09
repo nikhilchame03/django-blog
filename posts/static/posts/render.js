@@ -7,6 +7,10 @@ async function helper() {
     })
   });
 
+  // async function helper() { 
+  //   let res = await fetch("/api/posts/"); 
+  //   let posts = await res.json();
+
   let json = await res.json();
   let posts = json.data.posts;
 
