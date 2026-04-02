@@ -156,7 +156,11 @@ body {
   }
 }
 </style>
+{% load static %}
+<script src="{% static 'posts/render.js' %}"></script>
+
 </head>
+
 <body>
 
 <div style="display:flex; align-items:center; background:#496bdb; width:100%; padding:16px 24px; border-radius:16px; box-shadow:0 18px 45px rgba(0,0,0,0.45);">
@@ -166,8 +170,31 @@ body {
     Nikhil's Blog.
   </h1>
 
-  <!-- Right Button -->
-  <a href="/create">
+   <!-- Right Side -->
+
+  <div style="display:flex; align-items:center; gap:14px;">
+    {% if user.is_authenticated %}
+      <span style="color:white; font-weight:600;">
+        Hi, {{ user.username }}
+      </span>
+
+      <form method="POST" action="{%url 'logout'%}">
+        {% csrf_token %}
+        <button type="submit" style="padding:10px 16px; border:none; border-radius:8px; font-weight:600; cursor:pointer;">LOGOUT</button>
+      </form>
+      {%else%}
+      <a href="{% url 'login' %}">
+        <button style="padding:10px 16px; border:none; border-radius:8px; font-weight:600; cursor:pointer;">Login</button>
+      </a>
+      {%endif%}
+
+
+
+
+  </div>
+
+
+  <a href="/create"  style="margin-left:14px;">
     <button style="padding:10px 16px; border:none; border-radius:8px; font-weight:600; cursor:pointer;">
       CREATE
     </button>
@@ -175,19 +202,35 @@ body {
 
 </div>
 
+<form method="GET" action="" style="margin:20px 0; display:flex; gap:10px;">
+  <input
+    type="text"
+    name="search"
+    placeholder="Search by title..."
+    value="{{ request.GET.search }}"
+    style="flex:1; padding:10px; border-radius:8px; border:none;"
+  >
+  <button
+    type="submit"
+    style="padding:10px 16px; border:none; border-radius:8px; font-weight:600; cursor:pointer;"
+  >
+    Search
+  </button>
+</form>
+
+
 
 
 <div class="row">
   <div class="leftcolumn">
-    {% for post in posts reversed %}
-    <div class="card">
-        <a href="{% url 'post' post.id%}">
-          <h2>{{post.title}}</h2>
-          <h5>{{post.created_at}}</h5>
-          <p>{{post.body | truncatewords:20}}</p>
-        </a>
-    </div>
-    {% endfor %}
+    
+      <div id="posts"></div>
+      
+
+      
+    
+      
+    
   </div>
 </div>
 
